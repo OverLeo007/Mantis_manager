@@ -6,8 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +31,9 @@ public class Role {
   @Column(name = "role_permissions")
   private String rolePermissions;
 
+  @ManyToMany(mappedBy = "roles")
+  private List<User> users;
+
   public Role(Board board, String roleName, String rolePermissions) {
     this.board = board;
     this.roleName = roleName;
@@ -36,6 +41,14 @@ public class Role {
   }
 
   public Role() {
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 
   public Integer getId() {

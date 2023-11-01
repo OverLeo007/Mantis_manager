@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,10 +42,10 @@ public class Task {
   @Column(name = "task_preferences")
   private String taskPreferences;
 
-  @OneToMany(mappedBy = "task")
+  @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
   private List<Label> labels;
 
-  @OneToMany(mappedBy = "task")
+  @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
   private List<Comment> comments;
 
   public Task(String taskText, Integer taskPosition, BoardList list, Date dueDate, User taskDoer,
@@ -142,8 +143,8 @@ public class Task {
         ", dueDate=" + dueDate +
         ", taskDoer=" + taskDoer +
         ", taskPreferences='" + taskPreferences + '\'' +
-        ", labels=" + labels.size() +
-        ", comments=" + comments.size() +
+        ", labels=" + labels +
+        ", comments=" + comments +
         '}';
   }
 

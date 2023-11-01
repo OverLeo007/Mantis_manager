@@ -5,6 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -36,6 +39,22 @@ public class User {
   @OneToMany(mappedBy = "taskDoer")
   private List<Task> tasks;
 
+  @ManyToMany
+  @JoinTable(
+      name = "board_roles",
+      joinColumns = {@JoinColumn(name = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "board_id")}
+  )
+  private List<Board> boards;
+
+  @ManyToMany
+  @JoinTable(
+      name = "board_roles",
+      joinColumns = {@JoinColumn(name = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "role_id")}
+  )
+  private List<Role> roles;
+
 //  @OneToMany(mappedBy = "user")
 //  private List<BoardRole> boardRoles;
 
@@ -47,6 +66,22 @@ public class User {
   }
 
   public User() {
+  }
+
+  public List<Board> getBoards() {
+    return boards;
+  }
+
+  public void setBoards(List<Board> boards) {
+    this.boards = boards;
+  }
+
+  public List<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
   }
 
   public Integer getId() {
@@ -113,8 +148,8 @@ public class User {
         ", email='" + email + '\'' +
         ", password='" + password + '\'' +
         ", preferences='" + preferences + '\'' +
-        ", comments=" + comments.size() +
-        ", tasks=" + tasks.size() +
+        ", comments=" + comments +
+        ", tasks=" + tasks +
         '}';
   }
 

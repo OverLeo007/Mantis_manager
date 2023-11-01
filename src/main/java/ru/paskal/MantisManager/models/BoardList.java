@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class BoardList {
   @JoinColumn(name = "board_id")
   private Board board;
 
-  @OneToMany(mappedBy = "list")
+  @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
   private List<Task> tasks;
 
   public BoardList(String title, Integer listPosition, Board board) {

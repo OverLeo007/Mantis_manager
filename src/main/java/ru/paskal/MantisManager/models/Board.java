@@ -1,10 +1,12 @@
 package ru.paskal.MantisManager.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
@@ -25,11 +27,15 @@ public class Board {
   @Column(name = "last_edit")
   private Timestamp lastEdit;
 
-  @OneToMany(mappedBy = "board")
+  @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
   private List<BoardList> lists;
 
-  @OneToMany(mappedBy = "board")
+  @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
   private List<Role> roles;
+
+  @ManyToMany(mappedBy = "boards")
+  private List<User> users;
+
 
   public Board(String title, Timestamp lastEdit) {
     this.title = title;
