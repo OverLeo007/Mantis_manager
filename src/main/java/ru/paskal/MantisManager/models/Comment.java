@@ -28,7 +28,7 @@ public class Comment {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @Column(name = "text")
+  @Column(name = "comment_text")
   private String text;
 
   @Column(name = "comment_date")

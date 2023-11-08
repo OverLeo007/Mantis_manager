@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -42,11 +44,18 @@ public class Task {
   @Column(name = "task_preferences")
   private String taskPreferences;
 
-  @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "task")
+  private List<Comment> comments;
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(
+      name = "task_labels",
+      joinColumns = @JoinColumn(name = "task_id"),
+      inverseJoinColumns = @JoinColumn(name = "label_id")
+  )
   private List<Label> labels;
 
-  @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
-  private List<Comment> comments;
+
 
   public Task(String taskText, Integer taskPosition, BoardList list, Date dueDate, User taskDoer,
       String taskPreferences) {
@@ -117,20 +126,20 @@ public class Task {
     this.taskPreferences = taskPreferences;
   }
 
-  public List<Label> getLabels() {
-    return labels;
-  }
-
-  public void setLabels(List<Label> labels) {
-    this.labels = labels;
-  }
-
   public List<Comment> getComments() {
     return comments;
   }
 
   public void setComments(List<Comment> comments) {
     this.comments = comments;
+  }
+
+  public List<Label> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
   }
 
   @Override
@@ -143,8 +152,6 @@ public class Task {
         ", dueDate=" + dueDate +
         ", taskDoer=" + taskDoer +
         ", taskPreferences='" + taskPreferences + '\'' +
-        ", labels=" + labels +
-        ", comments=" + comments +
         '}';
   }
 
@@ -161,8 +168,7 @@ public class Task {
         task.getTaskPosition()) && getList().equals(task.getList()) && Objects.equals(
         getDueDate(), task.getDueDate()) && Objects.equals(getTaskDoer(),
         task.getTaskDoer()) && Objects.equals(getTaskPreferences(),
-        task.getTaskPreferences()) && Objects.equals(getLabels(), task.getLabels())
-        && Objects.equals(getComments(), task.getComments());
+        task.getTaskPreferences());
   }
 
   @Override

@@ -1,6 +1,5 @@
 package ru.paskal.MantisManager.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,15 +26,11 @@ public class Board {
   @Column(name = "last_edit")
   private Timestamp lastEdit;
 
-  @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
-  private List<BoardList> lists;
-
-  @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
-  private List<Role> roles;
-
-  @ManyToMany(mappedBy = "boards")
+  @ManyToMany(mappedBy = "board_users")
   private List<User> users;
 
+  @OneToMany(mappedBy = "board")
+  private List<Role> roles;
 
   public Board(String title, Timestamp lastEdit) {
     this.title = title;
@@ -69,12 +64,12 @@ public class Board {
     this.lastEdit = lastEdit;
   }
 
-  public List<BoardList> getLists() {
-    return lists;
+  public List<User> getUsers() {
+    return users;
   }
 
-  public void setLists(List<BoardList> lists) {
-    this.lists = lists;
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 
   public List<Role> getRoles() {
@@ -90,8 +85,6 @@ public class Board {
     return "Board{" +
         "title='" + title + '\'' +
         ", lastEdit=" + lastEdit +
-        ", lists=" + lists.size() +
-        ", roles=" + roles.size() +
         '}';
   }
 
@@ -105,13 +98,12 @@ public class Board {
     }
     Board board = (Board) o;
     return getTitle().equals(board.getTitle()) && Objects.equals(getLastEdit(),
-        board.getLastEdit()) && Objects.equals(getLists(), board.getLists())
-        && Objects.equals(getRoles(), board.getRoles());
+        board.getLastEdit());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getTitle(), getLastEdit(), getLists(), getRoles());
+    return Objects.hash(getTitle(), getLastEdit());
   }
 
   // constructors, getters, and setters

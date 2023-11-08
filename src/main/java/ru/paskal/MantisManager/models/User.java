@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,30 +34,27 @@ public class User {
   @Column(name = "preferences")
   private String preferences;
 
-  @OneToMany(mappedBy = "user")
-  private List<Comment> comments;
-
   @OneToMany(mappedBy = "taskDoer")
   private List<Task> tasks;
 
-  @ManyToMany
+  @OneToMany(mappedBy = "user")
+  private List<Comment> comments;
+
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
-      name = "board_roles",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "board_id")}
+      name = "board_users",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "board_id")
   )
   private List<Board> boards;
 
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
-      name = "board_roles",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "role_id")}
+      name = "user_roles",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id")
   )
   private List<Role> roles;
-
-//  @OneToMany(mappedBy = "user")
-//  private List<BoardRole> boardRoles;
 
   public User(String username, String email, String password, String preferences) {
     this.username = username;
@@ -68,21 +66,7 @@ public class User {
   public User() {
   }
 
-  public List<Board> getBoards() {
-    return boards;
-  }
 
-  public void setBoards(List<Board> boards) {
-    this.boards = boards;
-  }
-
-  public List<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(List<Role> roles) {
-    this.roles = roles;
-  }
 
   public Integer getId() {
     return id;
@@ -124,6 +108,14 @@ public class User {
     this.preferences = preferences;
   }
 
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
+
   public List<Comment> getComments() {
     return comments;
   }
@@ -132,12 +124,20 @@ public class User {
     this.comments = comments;
   }
 
-  public List<Task> getTasks() {
-    return tasks;
+  public List<Board> getBoards() {
+    return boards;
   }
 
-  public void setTasks(List<Task> tasks) {
-    this.tasks = tasks;
+  public void setBoards(List<Board> boards) {
+    this.boards = boards;
+  }
+
+  public List<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
   }
 
   @Override
@@ -148,8 +148,6 @@ public class User {
         ", email='" + email + '\'' +
         ", password='" + password + '\'' +
         ", preferences='" + preferences + '\'' +
-        ", comments=" + comments +
-        ", tasks=" + tasks +
         '}';
   }
 
@@ -164,14 +162,12 @@ public class User {
     User user = (User) o;
     return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail())
         && getPassword().equals(user.getPassword()) && Objects.equals(getPreferences(),
-        user.getPreferences()) && Objects.equals(getComments(), user.getComments())
-        && Objects.equals(getTasks(), user.getTasks());
+        user.getPreferences());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getUsername(), getEmail(), getPassword(), getPreferences(), getComments(),
-        getTasks());
+    return Objects.hash(getUsername(), getEmail(), getPassword(), getPreferences());
   }
 }
 

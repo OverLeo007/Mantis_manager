@@ -31,7 +31,7 @@ public class Role {
   @Column(name = "role_permissions")
   private String rolePermissions;
 
-  @ManyToMany(mappedBy = "roles")
+  @ManyToMany(mappedBy = "user_roles")
   private List<User> users;
 
   public Role(Board board, String roleName, String rolePermissions) {
@@ -41,14 +41,6 @@ public class Role {
   }
 
   public Role() {
-  }
-
-  public List<User> getUsers() {
-    return users;
-  }
-
-  public void setUsers(List<User> users) {
-    this.users = users;
   }
 
   public Integer getId() {
@@ -81,6 +73,14 @@ public class Role {
 
   public void setRolePermissions(String rolePermissions) {
     this.rolePermissions = rolePermissions;
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 
   @Override

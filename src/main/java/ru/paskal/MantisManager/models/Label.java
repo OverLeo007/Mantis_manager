@@ -5,9 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,17 +21,15 @@ public class Label {
   @Column(name = "title")
   private String title;
 
-  @Column(name = "info")
+  @Column(name = "label_info")
   private String info;
 
-  @ManyToOne
-  @JoinColumn(name = "task_id")
-  private Task task;
+  @ManyToMany(mappedBy = "task_labels")
+  private List<Task> tasks;
 
   public Label(String title, String info, Task task) {
     this.title = title;
     this.info = info;
-    this.task = task;
   }
 
   public Label() {
@@ -61,12 +59,12 @@ public class Label {
     this.info = info;
   }
 
-  public Task getTask() {
-    return task;
+  public List<Task> getTasks() {
+    return tasks;
   }
 
-  public void setTask(Task task) {
-    this.task = task;
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
   }
 
   @Override
@@ -75,7 +73,6 @@ public class Label {
         "id=" + id +
         ", title='" + title + '\'' +
         ", info='" + info + '\'' +
-        ", task=" + task +
         '}';
   }
 
@@ -88,12 +85,11 @@ public class Label {
       return false;
     }
     Label label = (Label) o;
-    return getTitle().equals(label.getTitle()) && Objects.equals(getInfo(), label.getInfo())
-        && getTask().equals(label.getTask());
+    return getTitle().equals(label.getTitle()) && Objects.equals(getInfo(), label.getInfo());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getTitle(), getInfo(), getTask());
+    return Objects.hash(getTitle(), getInfo());
   }
 }

@@ -1,6 +1,5 @@
 package ru.paskal.MantisManager.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,8 +30,9 @@ public class BoardList {
   @JoinColumn(name = "board_id")
   private Board board;
 
-  @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "list")
   private List<Task> tasks;
+
 
   public BoardList(String title, Integer listPosition, Board board) {
     this.title = title;
@@ -84,6 +84,16 @@ public class BoardList {
   }
 
   @Override
+  public String toString() {
+    return "BoardList{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        ", listPosition=" + listPosition +
+        ", board=" + board +
+        '}';
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -93,12 +103,11 @@ public class BoardList {
     }
     BoardList boardList = (BoardList) o;
     return getTitle().equals(boardList.getTitle()) && getListPosition().equals(
-        boardList.getListPosition()) && getBoard().equals(boardList.getBoard())
-        && Objects.equals(getTasks(), boardList.getTasks());
+        boardList.getListPosition()) && getBoard().equals(boardList.getBoard());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getTitle(), getListPosition(), getBoard(), getTasks());
+    return Objects.hash(getTitle(), getListPosition(), getBoard());
   }
 }
