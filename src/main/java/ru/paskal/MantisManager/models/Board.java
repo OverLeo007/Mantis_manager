@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
@@ -26,11 +29,14 @@ public class Board {
   @Column(name = "last_edit")
   private Timestamp lastEdit;
 
-  @ManyToMany(mappedBy = "board_users")
+  @ManyToMany(mappedBy = "boards")
   private List<User> users;
 
   @OneToMany(mappedBy = "board")
   private List<Role> roles;
+
+  @OneToMany(mappedBy = "board")
+  private List<BoardList> lists;
 
   public Board(String title, Timestamp lastEdit) {
     this.title = title;
@@ -78,6 +84,14 @@ public class Board {
 
   public void setRoles(List<Role> roles) {
     this.roles = roles;
+  }
+
+  public List<BoardList> getLists() {
+    return lists;
+  }
+
+  public void setLists(List<BoardList> lists) {
+    this.lists = lists;
   }
 
   @Override

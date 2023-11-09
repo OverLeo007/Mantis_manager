@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +34,7 @@ public class Role {
   @Column(name = "role_permissions")
   private String rolePermissions;
 
-  @ManyToMany(mappedBy = "user_roles")
+  @ManyToMany(mappedBy = "roles")
   private List<User> users;
 
   public Role(Board board, String roleName, String rolePermissions) {

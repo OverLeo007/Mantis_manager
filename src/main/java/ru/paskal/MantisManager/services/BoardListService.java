@@ -3,17 +3,15 @@ package ru.paskal.MantisManager.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.paskal.MantisManager.repositories.UserRepository;
+import ru.paskal.MantisManager.repositories.BoardListRepository;
 
 @Service
 @Transactional(readOnly = true)
-public class UserService {
-  private UserRepository repository;
+public class BoardListService {
+  private BoardListRepository repository;
 
   @Autowired
-  public UserService(UserRepository repository) {
+  public BoardListService(BoardListRepository repository) {
     this.repository = repository;
   }
-
-
 }

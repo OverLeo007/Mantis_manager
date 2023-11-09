@@ -24,7 +24,7 @@ public class Label {
   @Column(name = "label_info")
   private String info;
 
-  @ManyToMany(mappedBy = "task_labels")
+  @ManyToMany(mappedBy = "labels")
   private List<Task> tasks;
 
   public Label(String title, String info, Task task) {

@@ -1,10 +1,9 @@
 package ru.paskal.MantisManager.services;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.paskal.MantisManager.exceptions.BoardNotFoundException;
 import ru.paskal.MantisManager.models.Board;
 import ru.paskal.MantisManager.repositories.BoardRepository;
 
@@ -12,23 +11,18 @@ import ru.paskal.MantisManager.repositories.BoardRepository;
 @Transactional(readOnly = true)
 public class BoardService {
 
-  private final BoardRepository boardRepository;
+  private final BoardRepository repository;
 
-  @PersistenceContext
-  private EntityManager entityManager;
 
   @Autowired
-  public BoardService(BoardRepository boardRepository) {
-    this.boardRepository = boardRepository;
+  public BoardService(BoardRepository repository) {
+    this.repository = repository;
   }
 
 
   public Board getOne(int id) {
-    Board board = boardRepository.findById(id).orElse(null);
-    System.out.println(board);
-    assert board != null;
-    System.out.println(board.getLists());
-    System.out.println(board.getRoles());
+    Board board = repository.findPreloadBoardById(id).orElseThrow(BoardNotFoundException::new);
+
     return board;
   }
 
