@@ -1,21 +1,28 @@
 package ru.paskal.MantisManager.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
 @Table(name = "boards")
 public class Board {
   @Id
@@ -29,12 +36,17 @@ public class Board {
   @Column(name = "last_edit")
   private Timestamp lastEdit;
 
+
+  @JsonIgnore
   @ManyToMany(mappedBy = "boards")
   private List<User> users;
 
-  @OneToMany(mappedBy = "board")
-  private List<Role> roles;
+//  @JsonIgnore
+//  @OneToMany(mappedBy = "board")
+//  private List<Role> roles;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "board")
   private List<BoardList> lists;
 
@@ -43,82 +55,4 @@ public class Board {
     this.lastEdit = lastEdit;
   }
 
-  public Board() {
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Timestamp getLastEdit() {
-    return lastEdit;
-  }
-
-  public void setLastEdit(Timestamp lastEdit) {
-    this.lastEdit = lastEdit;
-  }
-
-  public List<User> getUsers() {
-    return users;
-  }
-
-  public void setUsers(List<User> users) {
-    this.users = users;
-  }
-
-  public List<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(List<Role> roles) {
-    this.roles = roles;
-  }
-
-  public List<BoardList> getLists() {
-    return lists;
-  }
-
-  public void setLists(List<BoardList> lists) {
-    this.lists = lists;
-  }
-
-  @Override
-  public String toString() {
-    return "Board{" +
-        "title='" + title + '\'' +
-        ", lastEdit=" + lastEdit +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Board board = (Board) o;
-    return getTitle().equals(board.getTitle()) && Objects.equals(getLastEdit(),
-        board.getLastEdit());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getTitle(), getLastEdit());
-  }
-
-  // constructors, getters, and setters
 }

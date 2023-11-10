@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,9 +11,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Table(name = "lists")
 public class BoardList {
   @Id
@@ -26,10 +36,15 @@ public class BoardList {
   @Column(name = "list_position")
   private Integer listPosition;
 
+  @JsonIgnore
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne
   @JoinColumn(name = "board_id")
   private Board board;
 
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "list")
   private List<Task> tasks;
 
@@ -40,74 +55,4 @@ public class BoardList {
     this.board = board;
   }
 
-  public BoardList() {
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Integer getListPosition() {
-    return listPosition;
-  }
-
-  public void setListPosition(Integer listPosition) {
-    this.listPosition = listPosition;
-  }
-
-  public Board getBoard() {
-    return board;
-  }
-
-  public void setBoard(Board board) {
-    this.board = board;
-  }
-
-  public List<Task> getTasks() {
-    return tasks;
-  }
-
-  public void setTasks(List<Task> tasks) {
-    this.tasks = tasks;
-  }
-
-  @Override
-  public String toString() {
-    return "BoardList{" +
-        "id=" + id +
-        ", title='" + title + '\'' +
-        ", listPosition=" + listPosition +
-        ", board=" + board +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    BoardList boardList = (BoardList) o;
-    return getTitle().equals(boardList.getTitle()) && getListPosition().equals(
-        boardList.getListPosition()) && getBoard().equals(boardList.getBoard());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getTitle(), getListPosition(), getBoard());
-  }
 }

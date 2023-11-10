@@ -21,7 +21,7 @@ public class BoardService {
 
 
   public Board getOne(int id) {
-    Board board = repository.findPreloadBoardById(id).orElseThrow(BoardNotFoundException::new);
+    Board board = repository.findById(id).orElseThrow(BoardNotFoundException::new);
 
     return board;
   }

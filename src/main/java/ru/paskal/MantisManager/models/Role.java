@@ -8,111 +8,53 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "roles")
-public class Role {
+//@Deprecated
+//@Entity
+//@NoArgsConstructor
+//@ToString
+//@EqualsAndHashCode
+//@Setter
+//@Getter
+//@Table(name = "roles")
+//public class Role {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "role_id")
-  private Integer id;
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @Column(name = "role_id")
+//  private Integer id;
+//
+//  @ToString.Exclude
+//  @EqualsAndHashCode.Exclude
+//  @ManyToOne
+//  @JoinColumn(name = "board_id")
+//  private Board board;
+//
+//  @Column(name = "role_name")
+//  private String roleName;
+//
+//  @Column(name = "role_permissions")
+//  private String rolePermissions;
+//
+//  @ToString.Exclude
+//  @EqualsAndHashCode.Exclude
+//  @ManyToMany(mappedBy = "roles")
+//  private List<User> users;
+//
+//  public Role(Board board, String roleName, String rolePermissions) {
+//    this.board = board;
+//    this.roleName = roleName;
+//    this.rolePermissions = rolePermissions;
+//  }
 
-  @ManyToOne
-  @JoinColumn(name = "board_id")
-  private Board board;
-
-  @Column(name = "role_name")
-  private String roleName;
-
-  @Column(name = "role_permissions")
-  private String rolePermissions;
-
-  @ManyToMany(mappedBy = "roles")
-  private List<User> users;
-
-  public Role(Board board, String roleName, String rolePermissions) {
-    this.board = board;
-    this.roleName = roleName;
-    this.rolePermissions = rolePermissions;
-  }
-
-  public Role() {
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Board getBoard() {
-    return board;
-  }
-
-  public void setBoard(Board board) {
-    this.board = board;
-  }
-
-  public String getRoleName() {
-    return roleName;
-  }
-
-  public void setRoleName(String roleName) {
-    this.roleName = roleName;
-  }
-
-  public String getRolePermissions() {
-    return rolePermissions;
-  }
-
-  public void setRolePermissions(String rolePermissions) {
-    this.rolePermissions = rolePermissions;
-  }
-
-  public List<User> getUsers() {
-    return users;
-  }
-
-  public void setUsers(List<User> users) {
-    this.users = users;
-  }
-
-  @Override
-  public String toString() {
-    return "Role{" +
-        "id=" + id +
-        ", board=" + board +
-        ", roleName='" + roleName + '\'' +
-        ", rolePermissions='" + rolePermissions + '\'' +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Role role = (Role) o;
-    return getBoard().equals(role.getBoard()) && getRoleName().equals(role.getRoleName())
-        && getRolePermissions().equals(role.getRolePermissions());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getBoard(), getRoleName(), getRolePermissions());
-  }
-}
+//}
 
 

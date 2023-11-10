@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +16,21 @@ import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 @Table(name = "tasks")
 public class Task {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "task_id")
@@ -30,23 +42,34 @@ public class Task {
   @Column(name = "task_position")
   private Integer taskPosition;
 
+  @Column(name = "due_date")
+  private Date dueDate;
+  @Column(name = "task_preferences")
+  private String taskPreferences;
+
+  @JsonIgnore
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne
   @JoinColumn(name = "list_id")
   private BoardList list;
 
-  @Column(name = "due_date")
-  private Date dueDate;
-
+  @JsonIgnore
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToOne
   @JoinColumn(name = "task_doer_id")
   private User taskDoer;
 
-  @Column(name = "task_preferences")
-  private String taskPreferences;
-
+  @JsonIgnore
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "task")
   private List<Comment> comments;
 
+  @JsonIgnore
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
       name = "task_labels",
@@ -54,7 +77,6 @@ public class Task {
       inverseJoinColumns = @JoinColumn(name = "label_id")
   )
   private List<Label> labels;
-
 
 
   public Task(String taskText, Integer taskPosition, BoardList list, Date dueDate, User taskDoer,
@@ -67,113 +89,4 @@ public class Task {
     this.taskPreferences = taskPreferences;
   }
 
-  public Task() {
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getTaskText() {
-    return taskText;
-  }
-
-  public void setTaskText(String taskText) {
-    this.taskText = taskText;
-  }
-
-  public Integer getTaskPosition() {
-    return taskPosition;
-  }
-
-  public void setTaskPosition(Integer taskPosition) {
-    this.taskPosition = taskPosition;
-  }
-
-  public BoardList getList() {
-    return list;
-  }
-
-  public void setList(BoardList list) {
-    this.list = list;
-  }
-
-  public Date getDueDate() {
-    return dueDate;
-  }
-
-  public void setDueDate(Date dueDate) {
-    this.dueDate = dueDate;
-  }
-
-  public User getTaskDoer() {
-    return taskDoer;
-  }
-
-  public void setTaskDoer(User taskDoer) {
-    this.taskDoer = taskDoer;
-  }
-
-  public String getTaskPreferences() {
-    return taskPreferences;
-  }
-
-  public void setTaskPreferences(String taskPreferences) {
-    this.taskPreferences = taskPreferences;
-  }
-
-  public List<Comment> getComments() {
-    return comments;
-  }
-
-  public void setComments(List<Comment> comments) {
-    this.comments = comments;
-  }
-
-  public List<Label> getLabels() {
-    return labels;
-  }
-
-  public void setLabels(List<Label> labels) {
-    this.labels = labels;
-  }
-
-  @Override
-  public String toString() {
-    return "Task{" +
-        "id=" + id +
-        ", taskText='" + taskText + '\'' +
-        ", taskPosition=" + taskPosition +
-        ", list=" + list +
-        ", dueDate=" + dueDate +
-        ", taskDoer=" + taskDoer +
-        ", taskPreferences='" + taskPreferences + '\'' +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Task task = (Task) o;
-    return getTaskText().equals(task.getTaskText()) && getTaskPosition().equals(
-        task.getTaskPosition()) && getList().equals(task.getList()) && Objects.equals(
-        getDueDate(), task.getDueDate()) && Objects.equals(getTaskDoer(),
-        task.getTaskDoer()) && Objects.equals(getTaskPreferences(),
-        task.getTaskPreferences());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getTaskText(), getTaskPosition(), getList(), getDueDate(), getTaskDoer(),
-        getTaskPreferences());
-  }
 }
