@@ -97,10 +97,12 @@
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
+				<!--suppress MavenModelInspection -->
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
+				<!--suppress MavenModelInspection -->
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludes>
