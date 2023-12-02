@@ -1,12 +1,16 @@
 package ru.paskal.MantisManager.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.paskal.MantisManager.dao.BoardListDao;
 import ru.paskal.MantisManager.dto.BoardListDto;
 import ru.paskal.MantisManager.dto.TaskDto;
+import ru.paskal.MantisManager.exceptions.JsonParsingException;
 import ru.paskal.MantisManager.exceptions.notCreated.BoardListNotCreatedException;
 import ru.paskal.MantisManager.exceptions.notDeleted.BoardListNotDeletedException;
 import ru.paskal.MantisManager.exceptions.notFound.BoardListNotFoundException;
@@ -26,6 +31,7 @@ import ru.paskal.MantisManager.services.BoardListService;
 import ru.paskal.MantisManager.utils.CrudErrorHandlers;
 
 @RestController
+@CrossOrigin(origins = {"*"})
 @RequestMapping("/api/lists")
 public class BoardListController extends
     CrudErrorHandlers<
@@ -76,6 +82,17 @@ public class BoardListController extends
     } catch (BoardListNotFoundException e) {
       throw new BoardListNotUpdatedException(e.getMessage());
     }
+  }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.OK)
+  public void createList(@RequestBody JsonNode json) {
+    try {
+      boardListService.create(json);
+    } catch (JsonProcessingException | JsonParsingException | BoardNotFoundException e) {
+      throw new BoardListNotCreatedException(e.getMessage());
+    }
+
   }
 
 

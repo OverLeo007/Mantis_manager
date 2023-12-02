@@ -8,3 +8,7 @@ public class BoardListNotCreatedException extends ModelNotCreatedException {
         super(entityType, msg);
     }
 }
+
+
+
+
