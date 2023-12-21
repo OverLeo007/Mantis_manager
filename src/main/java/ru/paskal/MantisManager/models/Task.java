@@ -22,6 +22,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @NoArgsConstructor
@@ -43,29 +45,26 @@ public class Task {
   @Column(name = "due_date")
   private Date dueDate;
   @Column(name = "task_preferences")
+  @JdbcTypeCode(SqlTypes.JSON)
   private String taskPreferences;
 
-  @JsonIgnore
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @ManyToOne
   @JoinColumn(name = "list_id")
   private BoardList list;
 
-  @JsonIgnore
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @ManyToOne
   @JoinColumn(name = "task_doer_id")
   private User taskDoer;
 
-  @JsonIgnore
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "task")
   private List<Comment> comments;
 
-  @JsonIgnore
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @ManyToMany(cascade = CascadeType.ALL)

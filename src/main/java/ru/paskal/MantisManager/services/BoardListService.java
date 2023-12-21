@@ -39,6 +39,10 @@ public class BoardListService {
     return repository.findByBoardId(boardId);
   }
 
+  public BoardList getById(Integer id) {
+    return repository.findById(id).orElseThrow(() -> new BoardListNotFoundException(id));
+  }
+
   @Transactional
   public void update(int id, BoardList boardList) {
     BoardList existingList = repository.findById(id).orElseThrow(() -> new BoardListNotFoundException(id));
@@ -72,6 +76,15 @@ public class BoardListService {
     }
     repository.save(newList);
     boardRepository.save(board);
+  }
+
+  @Transactional
+  public void delete(Integer id) {
+    if (repository.existsById(id)) {
+      repository.deleteById(id);
+    } else {
+      throw new BoardListNotFoundException(id);
+    }
   }
 
 //  public BoardList getBoardList

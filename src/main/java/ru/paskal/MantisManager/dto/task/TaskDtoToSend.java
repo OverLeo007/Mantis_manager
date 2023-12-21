@@ -1,21 +1,23 @@
-package ru.paskal.MantisManager.dto;
+package ru.paskal.MantisManager.dto.task;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
-import ru.paskal.MantisManager.models.BoardList;
+import ru.paskal.MantisManager.dto.CommentDto;
+import ru.paskal.MantisManager.dto.LabelDtoForTask;
+import ru.paskal.MantisManager.dto.user.UserDtoForLink;
 
 
 @Data
-public class TaskDto {
+public class TaskDtoToSend {
   private Integer id;
   private String taskText;
   private Integer taskPosition;
   private Date dueDate;
   private String taskPreferences;
+  private List<LabelDtoForTask> labels;
+  private UserDtoForLink doer;
+  private List<CommentDto> comments;
 }
 //  @JsonIgnore
 //  private UserDtoForLink taskDoer;

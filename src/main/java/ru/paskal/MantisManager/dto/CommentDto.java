@@ -2,7 +2,7 @@ package ru.paskal.MantisManager.dto;
 
 import java.sql.Timestamp;
 import lombok.Data;
-import ru.paskal.MantisManager.models.User;
+import ru.paskal.MantisManager.dto.user.UserDtoForLink;
 
 @Data
 public class CommentDto {

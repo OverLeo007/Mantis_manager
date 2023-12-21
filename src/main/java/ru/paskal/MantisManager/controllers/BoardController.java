@@ -20,8 +20,8 @@ import ru.paskal.MantisManager.dao.BoardDao;
 import ru.paskal.MantisManager.dto.board.BoardDto;
 import ru.paskal.MantisManager.dto.board.BoardDtoForLink;
 import ru.paskal.MantisManager.dto.BoardListDto;
-import ru.paskal.MantisManager.dto.TaskDto;
-import ru.paskal.MantisManager.dto.UserDtoForLink;
+import ru.paskal.MantisManager.dto.task.TaskDtoToSend;
+import ru.paskal.MantisManager.dto.user.UserDtoForLink;
 import ru.paskal.MantisManager.exceptions.notCreated.BoardNotCreatedException;
 import ru.paskal.MantisManager.exceptions.notDeleted.BoardNotDeletedException;
 import ru.paskal.MantisManager.exceptions.notFound.BoardNotFoundException;
@@ -114,7 +114,7 @@ public class BoardController extends
                 BoardListDto boardListDto = new BoardListDto();
                 boardListDto.setTasks(
                     list.getTasks().stream().map(
-                        task -> modelMapper.map(task, TaskDto.class)
+                        task -> modelMapper.map(task, TaskDtoToSend.class)
                     ).toList()
                 );
                 modelMapper.map(list, boardListDto);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.paskal.MantisManager.dto.UserDtoForLoad;
+import ru.paskal.MantisManager.dto.user.UserDtoForLoad;
 import ru.paskal.MantisManager.services.BoardService;
 import ru.paskal.MantisManager.services.UserService;
 
@@ -29,7 +29,6 @@ public class UserController {
     this.modelMapper = modelMapper;
   }
 
-  // TODO: глянуть хранимые процедуры
   @GetMapping("/{id}")
   public ResponseEntity<UserDtoForLoad> getUser(@PathVariable int id) {
     System.out.println(userService.getOne(id));

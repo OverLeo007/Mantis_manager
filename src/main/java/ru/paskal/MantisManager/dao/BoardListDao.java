@@ -16,10 +16,13 @@ import ru.paskal.MantisManager.utils.TestLogger;
 
 @Component
 @Transactional(readOnly = true)
-public class BoardListDao {
-
-  @PersistenceContext
-  EntityManager entityManager;
+public class BoardListDao extends Dao {
+  public static final String listTasksById =
+      "SELECT t from Task t WHERE t.list = :list";
+  public static final String allLists =
+      "SELECT l from BoardList l LEFT JOIN FETCH l.tasks t";
+  public static final String  listsByBoard =
+      "SELECT l from BoardList l LEFT JOIN FETCH l.tasks t WHERE l.board.id = :boardId";
 
   private final BoardRepository boardRepository;
 
@@ -29,25 +32,20 @@ public class BoardListDao {
   }
 
   public BoardList getList(int id) {
-    Session session = entityManager.unwrap(Session.class);
+    Session session = getSession();
     BoardList boardList = session.get(BoardList.class, id);
     if (boardList == null) {
       throw new BoardListNotFoundException(id);
     }
 
-    List<Task> tasks = session.createQuery(
-        "SELECT t from Task t WHERE t.list = :list",
-        Task.class
-    ).setParameter("list", boardList).getResultList();
-    boardList.setTasks(tasks);
-    TestLogger.log(boardList, this.getClass().getSimpleName());
+    TestLogger.log(boardList);
     return boardList;
   }
 
   public List<BoardList> getLists() {
-    Session session = entityManager.unwrap(Session.class);
+    Session session = getSession();
     return session.createQuery(
-        "SELECT l from BoardList l LEFT JOIN FETCH l.tasks t" ,
+        allLists,
         BoardList.class).getResultList();
   }
 
@@ -55,11 +53,13 @@ public class BoardListDao {
     if (!boardRepository.existsById(boardId)) {
       throw new BoardNotFoundException(boardId);
     }
-    Session session = entityManager.unwrap(Session.class);
+    Session session = getSession();
     return session.createQuery(
-        "SELECT l from BoardList l LEFT JOIN FETCH l.tasks t WHERE l.board.id = :boardId",
+        listsByBoard,
         BoardList.class).setParameter("boardId", boardId).getResultList();
   }
+
+
 
 
 
