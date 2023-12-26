@@ -1,5 +1,7 @@
 package ru.paskal.MantisManager;
 
+import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +17,12 @@ public class MantisManagerApplication {
 
   @Bean
   public ModelMapper modelMapper() {
-    return new ModelMapper();
+    var mapper = new ModelMapper();
+    mapper.getConfiguration()
+        .setFieldMatchingEnabled(true)
+        .setSkipNullEnabled(true)
+        .setFieldAccessLevel(PRIVATE);
+    return mapper;
   }
 
   @Bean

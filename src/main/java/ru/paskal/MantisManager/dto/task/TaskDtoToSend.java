@@ -1,5 +1,6 @@
 package ru.paskal.MantisManager.dto.task;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;

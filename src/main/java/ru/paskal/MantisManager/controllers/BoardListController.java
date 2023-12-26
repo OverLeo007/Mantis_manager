@@ -94,6 +94,7 @@ public class BoardListController extends
   @ResponseStatus(HttpStatus.OK)
   public void createList(@RequestBody JsonNode json) {
     try {
+      // TODO: Сделать возвращение результата
       boardListService.create(json);
     } catch (JsonProcessingException | JsonParsingException | BoardNotFoundException e) {
       throw new BoardListNotCreatedException(e.getMessage());

@@ -43,16 +43,22 @@ public class TaskDao extends Dao {
   public TaskDtoToSend mapTask(Task task) {
     TaskDtoToSend taskDtoToSend = new TaskDtoToSend();
     User doer = task.getTaskDoer();
+    var labels = task.getLabels();
+    var comments = task.getComments();
     if (doer != null) {
-      taskDtoToSend.setDoer(mm.map(task.getTaskDoer(), UserDtoForLink.class));
+      taskDtoToSend.setDoer(mm.map(doer, UserDtoForLink.class));
     }
-    taskDtoToSend.setLabels(
-        task.getLabels()
-            .stream().map(label -> mm.map(label, LabelDtoForTask.class)).toList());
-    taskDtoToSend.setComments(
-        task.getComments()
-            .stream().map(comment -> mm.map(comment, CommentDto.class)).toList()
-    );
+    if (labels != null) {
+      taskDtoToSend.setLabels(
+          labels
+              .stream().map(label -> mm.map(label, LabelDtoForTask.class)).toList());
+    }
+    if (comments != null) {
+      taskDtoToSend.setComments(
+          comments
+              .stream().map(comment -> mm.map(comment, CommentDto.class)).toList()
+      );
+    }
     mm.map(task, taskDtoToSend);
     return taskDtoToSend;
   }

@@ -74,8 +74,8 @@ public class BoardListService {
     } else {
       board.setLists(Collections.singletonList(newList));
     }
-    repository.save(newList);
     boardRepository.save(board);
+    repository.save(newList);
   }
 
   @Transactional

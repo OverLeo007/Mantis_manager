@@ -43,6 +43,10 @@ COMMENT ON COLUMN lists.title IS 'Название списка';
 COMMENT ON COLUMN lists.list_position IS 'Порядковый номер списка на доске';
 COMMENT ON COLUMN lists.board_id IS 'Ссылка на доску, на которой находится список';
 
+ALTER TABLE lists
+    ADD CONSTRAINT unique_list_position_on_board UNIQUE (list_position, board_id);
+
+
 
 -- Создаем таблицу записей
 CREATE TABLE tasks
@@ -63,6 +67,14 @@ COMMENT ON COLUMN tasks.list_id IS 'Ссылка на список, в кото�
 COMMENT ON COLUMN tasks.due_date IS 'Срок выполнения записи';
 COMMENT ON COLUMN tasks.task_doer_id IS 'Человек, назначенный на выполнение карточки';
 COMMENT ON COLUMN tasks.task_preferences IS 'Дополнительные настройки карточки';
+
+
+ALTER TABLE tasks
+    ADD CONSTRAINT unique_task_position_list_id UNIQUE (task_position, list_id);
+
+ALTER TABLE tasks
+    DROP CONSTRAINT IF EXISTS fk_list_id,  -- Удаление существующего ограничения, если оно существует
+    ADD CONSTRAINT fk_list_id FOREIGN KEY (list_id) REFERENCES lists (list_id) ON DELETE CASCADE;  -- Добавление нового внешнего ключа с опцией ON DELETE CASCADE
 
 
 -- Создаем таблицу меток

@@ -78,6 +78,7 @@ public class BoardController extends
   @ResponseStatus(HttpStatus.OK)
   public void create(@RequestBody JsonNode json) {
     try {
+      // TODO: Сделать возвращение результата
       boardService.save(json.get("title").asText(), json.get("user_id").asInt());
     } catch (UserNotFoundException e) {
       throw new BoardNotCreatedException(e.getMessage());
