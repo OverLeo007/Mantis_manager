@@ -46,8 +46,9 @@ public class TaskService {
 
   @Transactional
   public TaskDtoToSend saveTask(TaskCreateDto task) {
-    log(task);
-    return taskDao.mapTask(repository.save(mapFromCreateDto(task)));
+    var newTask = repository.save(mapFromCreateDto(task));
+    log("savedTask  Task: " + repository.save(newTask));
+    return taskDao.mapTask(newTask);
 
 //    repository.save(task);
   }
@@ -59,13 +60,14 @@ public class TaskService {
     localTask.setTaskPosition(task.getTaskPosition());
     localTask.setDueDate(task.getDueDate());
     localTask.setTaskText(task.getTaskText());
+    localTask.setTaskTitle(task.getTaskTitle());
     log(localTask);
-    log("Saved Task: " + repository.save(localTask));
+    log("Updated  Task: " + repository.save(localTask));
   }
 
   private Task mapFromCreateDto(TaskCreateDto taskCreateDto) {
     var task = new Task();
-    task.setTaskText(taskCreateDto.getTaskText());
+    task.setTaskTitle(taskCreateDto.getTaskTitle());
     task.setTaskPosition(taskCreateDto.getTaskPosition());
     task.setTaskPreferences("{\"color\": \"#ffffff\"}");
     Integer listId = taskCreateDto.getListId();
@@ -74,7 +76,7 @@ public class TaskService {
             () -> new BoardListNotFoundException(listId)
         )
     );
-    log(task);
+
     return task;
   }
 

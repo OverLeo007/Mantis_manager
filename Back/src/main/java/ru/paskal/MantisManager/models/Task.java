@@ -39,6 +39,9 @@ public class Task {
   @Column(name = "task_text")
   private String taskText;
 
+  @Column(name = "task_title")
+  private String taskTitle;
+
   @Column(name = "task_position")
   private Integer taskPosition;
 
@@ -75,15 +78,15 @@ public class Task {
   )
   private List<Label> labels;
 
-
-  public Task(String taskText, Integer taskPosition, BoardList list, Date dueDate, User taskDoer,
-      String taskPreferences) {
-    this.taskText = taskText;
-    this.taskPosition = taskPosition;
-    this.list = list;
-    this.dueDate = dueDate;
-    this.taskDoer = taskDoer;
-    this.taskPreferences = taskPreferences;
-  }
+//
+//  public Task(String taskText, Integer taskPosition, BoardList list, Date dueDate, User taskDoer,
+//      String taskPreferences) {
+//    this.taskText = taskText;
+//    this.taskPosition = taskPosition;
+//    this.list = list;
+//    this.dueDate = dueDate;
+//    this.taskDoer = taskDoer;
+//    this.taskPreferences = taskPreferences;
+//  }
 
 }

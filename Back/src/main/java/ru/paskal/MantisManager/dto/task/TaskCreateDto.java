@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TaskCreateDto {
-  private String taskText;
+  private String taskTitle;
   private Integer taskPosition;
   private Integer listId;
 }

@@ -12,6 +12,7 @@ import ru.paskal.MantisManager.dto.user.UserDtoForLink;
 @Data
 public class TaskDtoToSend {
   private Integer id;
+  private String taskTitle;
   private String taskText;
   private Integer taskPosition;
   private Date dueDate;
